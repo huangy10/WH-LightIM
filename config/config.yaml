@@ -1,0 +1,10 @@
+project:
+  - ROOT: ""
+database:
+  - URL: "localhost"
+  - PORT: ""
+  - NAME: ""
+  - PASSWORD: ""
+media:
+  - MEDIA_ROOT: "" # relative path to project root
+  - MEDIA_URL_PREFIX: ""
