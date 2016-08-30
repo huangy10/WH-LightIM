@@ -4,6 +4,11 @@ from sqlalchemy.sql.expression import false, true
 from models.base import BaseModel
 from models.mixins import UpdateAtMixin, HasExternalIDMixin
 
+from config import GlobalConfig
+
+
+config = GlobalConfig()
+
 
 class User(BaseModel, UpdateAtMixin, HasExternalIDMixin):
 
@@ -19,7 +24,7 @@ class User(BaseModel, UpdateAtMixin, HasExternalIDMixin):
     # whether the account is active. Messages sent to the inactive user will be revoked
     active = Column(Boolean, server_default=true())
 
-    # whether the user is online
+    # whether the user is online. Message sent to an off-line user will be cached
     online = Column(Boolean, server_default=false())
 
     # the time of the last login
@@ -30,8 +35,8 @@ class User(BaseModel, UpdateAtMixin, HasExternalIDMixin):
 
     @property
     def avatar_url(self):
-        return ""
+        return config.get_media_url(self.avatar)
 
     @property
     def avatar_path(self):
-        return ""
+        return config.get_full_path(self.avatar)

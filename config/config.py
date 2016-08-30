@@ -20,7 +20,8 @@ class GlobalConfig(object):
         if file_path is None:
             file_path = os.path.join(__file__.dir, "config.yaml")
         self._data = yaml.load(open(file_path))
-
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+        self.PROJ_DIR = base_path
         self._configure_check()
 
     def _configure_check(self):
@@ -43,3 +44,22 @@ class GlobalConfig(object):
     @property
     def database_passwd(self):
         return self._data["database"]["PASSWORD"]
+
+    # media
+
+    @property
+    def media_root(self):
+        return self._data["media"]["MEDIA_ROOT"]
+
+    @property
+    def media_url_prefix(self):
+        return self._data["media"]["MEDIA_URL_PREFIX"]
+
+    def get_full_path(self, path_name):
+        return os.path.join(self.PROJ_DIR, path_name)
+
+    def get_media_abs_path(self, media_name):
+        return os.path.join(self.PROJ_DIR, self.media_root, media_name)
+
+    def get_media_url(self, media_name):
+        return os.path.join(self.media_url_prefix, media_name)
